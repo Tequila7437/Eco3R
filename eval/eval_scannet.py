@@ -20,14 +20,14 @@ import numpy as np
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-import ecovggt  # noqa: E402
-from ecovggt import da3_engine, online, pi3_engine, vggt_engine, vggt_omega_engine  # noqa: E402
-from ecovggt.io import preprocess  # noqa: E402
+import eco3r  # noqa: E402
+from eco3r import da3_engine, online, pi3_engine, vggt_engine, vggt_omega_engine  # noqa: E402
+from eco3r.io import preprocess  # noqa: E402
 from eval.metrics import depth_errors, point_errors, trajectory_errors  # noqa: E402
 from eval.prepare_scannet import find_sens, read_sens_depth  # noqa: E402
-from ecovggt.models import _add_path  # noqa: E402
+from eco3r.models import _add_path  # noqa: E402
 
-_add_path("ECOVGGT_VGGT_ROOT", "FastVGGT")  # VGGT's pose encoding and unprojection are used for all backbones
+_add_path("ECO3R_VGGT_ROOT", "FastVGGT")  # VGGT's pose encoding and unprojection are used for all backbones
 
 SUCCESS_ATE = 0.2  # meters
 
@@ -70,7 +70,7 @@ def load_scene(scene_dir, budget):
 # ----------------------------------------------------------------------------- inference
 def load_vggt_omega_frames(paths):
     """The original frames with the official 416-pixel preprocessing of VGGT-Omega."""
-    _add_path("ECOVGGT_VGGT_OMEGA_ROOT", "vggt-omega")
+    _add_path("ECO3R_VGGT_OMEGA_ROOT", "vggt-omega")
     from vggt_omega.utils.load_fn import load_and_preprocess_images
     return load_and_preprocess_images(paths, mode="balanced", image_resolution=416).pin_memory()
 
@@ -199,7 +199,7 @@ def main():
     a = ap.parse_args()
 
     kwargs = {k: v for k, v in (("weights", a.weights), ("refocusing_weights", a.refocusing_weights if a.backbone == "vggt" else None)) if v}
-    model = ecovggt.load_backbone(a.backbone, **kwargs)
+    model = eco3r.load_backbone(a.backbone, **kwargs)
     os.makedirs(a.out, exist_ok=True)
     per_scene = {}
     for scene in [l.strip() for l in open(a.scenes) if l.strip()]:

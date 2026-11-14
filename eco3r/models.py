@@ -5,10 +5,10 @@ import sys
 
 import torch
 
-# VGGT comes from FastVGGT (ECOVGGT_VGGT_ROOT or third_party/FastVGGT) with bf16 weights, as in
+# VGGT comes from FastVGGT (ECO3R_VGGT_ROOT or third_party/FastVGGT) with bf16 weights, as in
 # our runs. Without it, the official `vggt` package runs with fp32 weights and bf16 autocast.
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REFOCUSING_REPO = os.environ.get("ECOVGGT_HF_REPO", "Tequila7437/EcoVGGT")
+REFOCUSING_REPO = os.environ.get("ECO3R_HF_REPO", "Tequila7437/Eco3R")
 REFOCUSING_FILE = "alignment_refocusing_vggt1b.safetensors"
 # pinned Hugging Face revisions of the backbone weights
 REVISIONS = {
@@ -48,7 +48,7 @@ def load_refocusing(model, path=None):
 
 def load_vggt(refocusing=True, weights=None, refocusing_weights=None, device="cuda", point_head=False):
     """VGGT-1B, with Alignment Refocusing unless refocusing=False."""
-    _add_path("ECOVGGT_VGGT_ROOT", "FastVGGT")
+    _add_path("ECO3R_VGGT_ROOT", "FastVGGT")
     from vggt.models.vggt import VGGT
     params = inspect.signature(VGGT.__init__).parameters
     fastvggt = "merging" in params
@@ -65,13 +65,13 @@ def load_vggt(refocusing=True, weights=None, refocusing_weights=None, device="cu
 
 
 def load_pi3(device="cuda", weights="yyfz233/Pi3"):
-    _add_path("ECOVGGT_PI3_ROOT", "Pi3")
+    _add_path("ECO3R_PI3_ROOT", "Pi3")
     from pi3.models.pi3 import Pi3
     return Pi3.from_pretrained(weights, revision=REVISIONS.get(weights)).to(device).eval()
 
 
 def load_da3(device="cuda", weights="depth-anything/DA3-LARGE"):
-    root = _add_path("ECOVGGT_DA3_ROOT", "Depth-Anything-3")
+    root = _add_path("ECO3R_DA3_ROOT", "Depth-Anything-3")
     src = os.path.join(root, "src")
     if os.path.isdir(src) and src not in sys.path:
         sys.path.insert(0, src)
@@ -81,7 +81,7 @@ def load_da3(device="cuda", weights="depth-anything/DA3-LARGE"):
 
 def load_vggt_omega(device="cuda", weights=None):
     """VGGT-Omega, 416-pixel benchmark checkpoint (accept its license on Hugging Face first)."""
-    _add_path("ECOVGGT_VGGT_OMEGA_ROOT", "vggt-omega")
+    _add_path("ECO3R_VGGT_OMEGA_ROOT", "vggt-omega")
     from vggt_omega.models import VGGTOmega
     model = VGGTOmega()
     sd = torch.load(weights or _download("facebook/VGGT-Omega", "vggt_omega_1b_416_reproduce.pt"), map_location="cpu")

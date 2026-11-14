@@ -9,7 +9,7 @@ learning rate 1e-5, 195 ScanNet scans, 3.6 hours on one A100 (80 GB).
         --scenes training/scannet_train_195.txt --weights /path/to/VGGT-1B/model.pt --out runs/refocusing
 
 Data comes from eval/prepare_scannet.py --train. Writes alignment_refocusing_step<N>.safetensors
-(load with ecovggt.load_refocusing) and log.jsonl.
+(load with eco3r.load_refocusing) and log.jsonl.
 """
 import argparse
 import glob
@@ -30,10 +30,10 @@ from torch.utils.checkpoint import checkpoint
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from ecovggt.models import _add_path  # noqa: E402
+from eco3r.models import _add_path  # noqa: E402
 
-_add_path("ECOVGGT_VGGT_ROOT", "FastVGGT")
-_official = os.environ.get("ECOVGGT_VGGT_OFFICIAL_ROOT") or str(ROOT / "third_party" / "vggt")
+_add_path("ECO3R_VGGT_ROOT", "FastVGGT")
+_official = os.environ.get("ECO3R_VGGT_OFFICIAL_ROOT") or str(ROOT / "third_party" / "vggt")
 sys.path.append(os.path.join(_official, "training"))  # VGGT training losses (loss.py)
 if importlib.util.find_spec("iopath") is None:  # iopath is only used for file I/O in train_utils, so a stub is enough
     _m, _c, _f = types.ModuleType("iopath"), types.ModuleType("iopath.common"), types.ModuleType("iopath.common.file_io")
@@ -43,7 +43,7 @@ from loss import compute_camera_loss, compute_depth_loss  # noqa: E402
 from vggt.models.vggt import VGGT  # noqa: E402
 from vggt.utils.load_fn import load_and_preprocess_images  # noqa: E402
 
-from ecovggt.vggt_engine import CACHED_BLOCKS, _embed, cached_attention_block  # noqa: E402
+from eco3r.vggt_engine import CACHED_BLOCKS, _embed, cached_attention_block  # noqa: E402
 
 BAND = range(10, 16)
 

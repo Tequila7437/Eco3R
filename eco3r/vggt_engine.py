@@ -1,4 +1,4 @@
-"""EcoVGGT on VGGT.
+"""Eco3R on VGGT.
 
 pin_pass runs the pinned frames with full attention among themselves and caches the input
 of every global block. attach_pass runs the other frames in batches whose global blocks
@@ -144,7 +144,7 @@ def head_inputs(model, outs, dtype):
 @torch.no_grad()
 def reconstruct(model, images, num_keys: int = 31, key_frames: Optional[Sequence[int]] = None, chunk: int = 64,
                 tasks=("camera", "depth"), score: bool = False, amp_dtype=torch.bfloat16) -> Dict:
-    """Run EcoVGGT on a VGGT backbone.
+    """Run Eco3R on a VGGT backbone.
 
     Args:
         model: a VGGT model, with or without Alignment Refocusing.
@@ -160,7 +160,7 @@ def reconstruct(model, images, num_keys: int = 31, key_frames: Optional[Sequence
     """
     B, S = images.shape[:2]
     if B != 1:
-        raise ValueError("EcoVGGT processes one video at a time (batch size 1)")
+        raise ValueError("Eco3R processes one video at a time (batch size 1)")
     dtype = next(model.parameters()).dtype
     keys = sorted(set([0] + [int(k) for k in (key_frames if key_frames is not None else pinned_keys(S, num_keys))]))
     rest = [i for i in range(S) if i not in set(keys)]

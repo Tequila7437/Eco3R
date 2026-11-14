@@ -1,19 +1,19 @@
 <div align="center">
 
-<h1>EcoVGGT: Pinned-Key Inference for Efficient and Streamable<br>Feed-Forward 3D Reconstruction from Long Videos</h1>
+<h1>Eco3R: Pinned-Key Inference for Efficient and Streamable<br>Feed-Forward 3D Reconstruction from Long Videos</h1>
 
 Hongsen Cao&ensp;·&ensp;Shanxin Yuan&ensp;·&ensp;Mona Jaber&ensp;·&ensp;Ahmed Sayed
 
 Queen Mary University of London
 
 <a href="https://arxiv.org/abs/XXXX.XXXXX"><img src="https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b?logo=arxiv&logoColor=white" alt="arXiv"></a>
-<a href="https://huggingface.co/Tequila7437/EcoVGGT"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Weights-EcoVGGT-f5a623" alt="Weights on Hugging Face"></a>
+<a href="https://huggingface.co/Tequila7437/Eco3R"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Weights-Eco3R-f5a623" alt="Weights on Hugging Face"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/Code-VGGT%20License-2a78d6" alt="Code license"></a>
 <a href="https://creativecommons.org/licenses/by-nc/4.0/"><img src="https://img.shields.io/badge/Weights-CC%20BY--NC%204.0-6f6e6a" alt="Weights license"></a>
 
-<img src="assets/teaser_online.gif" width="100%" alt="Online reconstruction of a ScanNet video with EcoVGGT">
+<img src="assets/teaser_online.gif" width="100%" alt="Online reconstruction of a ScanNet video with Eco3R">
 
-<i>EcoVGGT (π³) reconstructs a 1,000-frame ScanNet video while the frames arrive.</i>
+<i>Eco3R (π³) reconstructs a 1,000-frame ScanNet video while the frames arrive.</i>
 
 </div>
 
@@ -30,15 +30,15 @@ Queen Mary University of London
 
 ## Overview
 
-VGGT and similar feed-forward models reconstruct a video in a single pass, but their cross-frame self-attention grows quadratically with the number of frames, and their accuracy drops on long videos. In EcoVGGT, every frame attends to the same 31 frames, spread evenly over the video. We call these frames the Pinned Key Set. A pin pass caches their tokens in a Scene Cache, and the remaining frames read this cache in independent batches. The result equals joint inference with these keys up to floating-point rounding, while the cost per frame and the peak memory stay constant as the video grows. The Online Stream applies the same idea while a video is still being recorded.
+VGGT and similar feed-forward models reconstruct a video in a single pass, but their cross-frame self-attention grows quadratically with the number of frames, and their accuracy drops on long videos. In Eco3R, every frame attends to the same 31 frames, spread evenly over the video. We call these frames the Pinned Key Set. A pin pass caches their tokens in a Scene Cache, and the remaining frames read this cache in independent batches. The result equals joint inference with these keys up to floating-point rounding, while the cost per frame and the peak memory stay constant as the video grows. The Online Stream applies the same idea while a video is still being recorded.
 
-Global blocks 10 to 15 of VGGT align the frames. The Alignment Score reads their attention to flag likely failures without training or ground truth. Alignment Refocusing fine-tunes only these six blocks (76M parameters, 3.6 GPU hours) and reduces the failures. EcoVGGT runs on VGGT, π³, VGGT-Ω, and Depth Anything 3 (DA3), and each version carries the name of its backbone.
+Global blocks 10 to 15 of VGGT align the frames. The Alignment Score reads their attention to flag likely failures without training or ground truth. Alignment Refocusing fine-tunes only these six blocks (76M parameters, 3.6 GPU hours) and reduces the failures. Eco3R runs on VGGT, π³, VGGT-Ω, and Depth Anything 3 (DA3), and each version carries the name of its backbone.
 
-<p align="center"><img src="assets/pipeline.png" width="100%" alt="Overview of EcoVGGT"></p>
+<p align="center"><img src="assets/pipeline.png" width="100%" alt="Overview of Eco3R"></p>
 
 ## Results
 
-On 1,000-frame ScanNet videos, EcoVGGT (π³) keeps the success rate of π³ and runs 13.8 times as fast, where success means an absolute trajectory error (ATE) below 0.2 m. On 500 frames, EcoVGGT (VGGT) with Alignment Refocusing raises the success rate of VGGT from 70% to 82% and runs 8.5 times as fast. EcoVGGT reconstructs 4,000 frames on one GPU, and EcoVGGT (π³) streams 1,000 frames at 18.6 frames per second.
+On 1,000-frame ScanNet videos, Eco3R (π³) keeps the success rate of π³ and runs 13.8 times as fast, where success means an absolute trajectory error (ATE) below 0.2 m. On 500 frames, Eco3R (VGGT) with Alignment Refocusing raises the success rate of VGGT from 70% to 82% and runs 8.5 times as fast. Eco3R reconstructs 4,000 frames on one GPU, and Eco3R (π³) streams 1,000 frames at 18.6 frames per second.
 
 <div align="center">
 <table>
@@ -48,11 +48,11 @@ On 1,000-frame ScanNet videos, EcoVGGT (π³) keeps the success rate of π³ and
 </thead>
 <tbody>
 <tr><td>VGGT</td><td align="center">70</td><td align="center">0.111</td><td align="center">196</td><td align="center">23.1</td><td align="center">70</td><td align="center">0.130</td><td align="center">772</td><td align="center">44.2</td></tr>
-<tr><td>EcoVGGT (VGGT)</td><td align="center">82</td><td align="center">0.090</td><td align="center">23.1</td><td align="center">10.0</td><td align="center">82</td><td align="center">0.093</td><td align="center">46.5</td><td align="center">10.0</td></tr>
-<tr><td>EcoVGGT (VGGT), online</td><td align="center">78</td><td align="center">0.102</td><td align="center">45.8</td><td align="center">11.4</td><td align="center">78</td><td align="center">0.099</td><td align="center">64.6</td><td align="center">11.5</td></tr>
+<tr><td>Eco3R (VGGT)</td><td align="center">82</td><td align="center">0.090</td><td align="center">23.1</td><td align="center">10.0</td><td align="center">82</td><td align="center">0.093</td><td align="center">46.5</td><td align="center">10.0</td></tr>
+<tr><td>Eco3R (VGGT), online</td><td align="center">78</td><td align="center">0.102</td><td align="center">45.8</td><td align="center">11.4</td><td align="center">78</td><td align="center">0.099</td><td align="center">64.6</td><td align="center">11.5</td></tr>
 <tr><td>π³</td><td align="center">94</td><td align="center">0.054</td><td align="center">138</td><td align="center">24.4</td><td align="center">94</td><td align="center">0.058</td><td align="center">557</td><td align="center">43.4</td></tr>
-<tr><td>EcoVGGT (π³)</td><td align="center">94</td><td align="center">0.052</td><td align="center">19.9</td><td align="center">9.9</td><td align="center">94</td><td align="center">0.060</td><td align="center">40.4</td><td align="center">9.9</td></tr>
-<tr><td>EcoVGGT (π³), online</td><td align="center">90</td><td align="center">0.061</td><td align="center">37.0</td><td align="center">11.0</td><td align="center">92</td><td align="center">0.061</td><td align="center">53.8</td><td align="center">11.0</td></tr>
+<tr><td>Eco3R (π³)</td><td align="center">94</td><td align="center">0.052</td><td align="center">19.9</td><td align="center">9.9</td><td align="center">94</td><td align="center">0.060</td><td align="center">40.4</td><td align="center">9.9</td></tr>
+<tr><td>Eco3R (π³), online</td><td align="center">90</td><td align="center">0.061</td><td align="center">37.0</td><td align="center">11.0</td><td align="center">92</td><td align="center">0.061</td><td align="center">53.8</td><td align="center">11.0</td></tr>
 </tbody>
 </table>
 </div>
@@ -61,7 +61,7 @@ These rows come from Table 1 of the paper, which also covers 16 other methods. E
 
 <p align="center"><img src="assets/compare_scene0477.gif" width="100%" alt="Reconstructions of a long ScanNet video"></p>
 
-<i>A 4,401-frame ScanNet video seen from above, with the ceiling removed. InfiniteVGGT misplaces the walls, while EcoVGGT (π³) keeps every wall in place at 1,000 and 4,000 frames.</i>
+<i>A 4,401-frame ScanNet video seen from above, with the ceiling removed. InfiniteVGGT misplaces the walls, while Eco3R (π³) keeps every wall in place at 1,000 and 4,000 frames.</i>
 
 <p align="center"><img src="assets/tradeoff.png" width="100%" alt="Accuracy and cost on ScanNet"></p>
 
@@ -70,10 +70,10 @@ These rows come from Table 1 of the paper, which also covers 16 other methods. E
 ## Installation
 
 ```bash
-git clone https://github.com/Tequila7437/EcoVGGT.git
-cd EcoVGGT
-conda create -n ecovggt python=3.10 -y
-conda activate ecovggt
+git clone https://github.com/Tequila7437/Eco3R.git
+cd Eco3R
+conda create -n eco3r python=3.10 -y
+conda activate eco3r
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
 pip install -e .
 bash scripts/setup_third_party.sh
@@ -91,12 +91,12 @@ We tested the code with Python 3.10 and PyTorch 2.11 on CUDA 12.8. The VGGT back
 ## Quick start
 
 ```python
-import ecovggt
-from ecovggt.io import load_images
+import eco3r
+from eco3r.io import load_images
 
 images = load_images("path/to/frames")   # [S, 3, H, W] in [0, 1], 518 pixels wide
-model = ecovggt.load_backbone("pi3")     # or "vggt", "vggt-frozen", "da3", "vggt-omega"
-rec = ecovggt.reconstruct(model, images.cuda(), "pi3")
+model = eco3r.load_backbone("pi3")     # or "vggt", "vggt-frozen", "da3", "vggt-omega"
+rec = eco3r.reconstruct(model, images.cuda(), "pi3")
 
 rec["w2c"]           # [S, 3, 4] world-to-camera matrices (OpenCV), world = camera of frame 0
 rec["intrinsics"]    # [S, 3, 3]
@@ -124,28 +124,28 @@ python demo.py --input path/to/frames --backbone pi3 --online --key_interval 32 
 | `da3` | DA3-LARGE | yes | no | no |
 | `vggt-omega` | VGGT-Ω, 416-pixel checkpoint for benchmarking | yes | yes | no |
 
-The VGGT backbones use bfloat16 weights. π³ and DA3 keep float32 weights and run under bfloat16 autocast, and VGGT-Ω follows its official forward pass. By default, 31 frames are pinned and the others are attached in batches of 64 (`num_keys` and `chunk` in `ecovggt.reconstruct`). The GPU memory of a pass depends on these two numbers only, not on the length of the video.
+The VGGT backbones use bfloat16 weights. π³ and DA3 keep float32 weights and run under bfloat16 autocast, and VGGT-Ω follows its official forward pass. By default, 31 frames are pinned and the others are attached in batches of 64 (`num_keys` and `chunk` in `eco3r.reconstruct`). The GPU memory of a pass depends on these two numbers only, not on the length of the video.
 
 ## Online Stream
 
 The Online Stream takes frames one at a time. Every `key_interval` frames, the newest frame becomes a candidate key, and each pass pins up to `max_keys` candidates spread over the past. A frame is output `lag` passes after its interval, so it also sees up to `lag + 1` keys from later in the video. No frame waits longer than `(lag + 1) * key_interval` frames.
 
 ```python
-stream = ecovggt.Pi3OnlineStream(model, key_interval=32, max_keys=32)
+stream = eco3r.Pi3OnlineStream(model, key_interval=32, max_keys=32)
 for image in frames:              # [3, H, W] in [0, 1] on the GPU
     emitted = stream.push(image)  # frames finished by this call
 stream.finish()                   # flush the rest
 out = stream.results()
 ```
 
-`ecovggt.VGGTOnlineStream(model, key_interval, lag=2, max_keys=32)` has the same interface for the VGGT backbones. For VGGT-Ω, `ecovggt.vggt_omega_engine.online_reconstruct` runs the stream over a recorded clip. `demo.py --online` shows how to turn the outputs into cameras and points. In the paper, `key_interval` is 16 up to 500 frames and 32 beyond, `max_keys` is 32, and `lag` is 2 for VGGT and 0 for π³.
+`eco3r.VGGTOnlineStream(model, key_interval, lag=2, max_keys=32)` has the same interface for the VGGT backbones. For VGGT-Ω, `eco3r.vggt_omega_engine.online_reconstruct` runs the stream over a recorded clip. `demo.py --online` shows how to turn the outputs into cameras and points. In the paper, `key_interval` is 16 up to 500 frames and 32 beyond, `max_keys` is 32, and `lag` is 2 for VGGT and 0 for π³.
 
 ## Alignment Score
 
 ```python
-model = ecovggt.load_backbone("vggt")
-rec = ecovggt.reconstruct(model, images.cuda(), "vggt", score=True)
-if rec["alignment_score"] < ecovggt.THRESHOLD_PINNED_KEYS:
+model = eco3r.load_backbone("vggt")
+rec = eco3r.reconstruct(model, images.cuda(), "vggt", score=True)
+if rec["alignment_score"] < eco3r.THRESHOLD_PINNED_KEYS:
     print("the reconstruction has likely failed")
 ```
 
@@ -181,17 +181,17 @@ python training/train_refocusing.py --data_dir /data/scannet/process_scannet_tra
     --scenes training/scannet_train_195.txt --weights /path/to/VGGT-1B/model.pt --out runs/refocusing
 ```
 
-The 195 training scans are the first scans of ScanNet rooms that are not among the evaluation scenes. Each step takes a whole scan or a random contiguous half of it, pins 24 evenly spaced frames, and adds 24 random frames that attend only to the pinned ones. The loss is the camera loss of VGGT on all frames plus its depth loss on six of them. Our weights come from 2,000 AdamW steps at a learning rate of 1e-5, which took 3.6 hours on one A100 GPU and 37 GB of memory. To load your own checkpoint, call `ecovggt.load_backbone("vggt", refocusing_weights="runs/refocusing/alignment_refocusing_step2000.safetensors")`.
+The 195 training scans are the first scans of ScanNet rooms that are not among the evaluation scenes. Each step takes a whole scan or a random contiguous half of it, pins 24 evenly spaced frames, and adds 24 random frames that attend only to the pinned ones. The loss is the camera loss of VGGT on all frames plus its depth loss on six of them. Our weights come from 2,000 AdamW steps at a learning rate of 1e-5, which took 3.6 hours on one A100 GPU and 37 GB of memory. To load your own checkpoint, call `eco3r.load_backbone("vggt", refocusing_weights="runs/refocusing/alignment_refocusing_step2000.safetensors")`.
 
 ## Model weights
 
-The Alignment Refocusing weights (`alignment_refocusing_vggt1b.safetensors`, 302 MB) replace global blocks 10 to 15 of VGGT-1B and hold 75.6M parameters. They are on [Hugging Face](https://huggingface.co/Tequila7437/EcoVGGT), and `ecovggt.load_backbone("vggt")` downloads them together with VGGT-1B. The other backbones use the weights released by their authors.
+The Alignment Refocusing weights (`alignment_refocusing_vggt1b.safetensors`, 302 MB) replace global blocks 10 to 15 of VGGT-1B and hold 75.6M parameters. They are on [Hugging Face](https://huggingface.co/Tequila7437/Eco3R), and `eco3r.load_backbone("vggt")` downloads them together with VGGT-1B. The other backbones use the weights released by their authors.
 
 ## Citation
 
 ```bibtex
-@article{cao2026ecovggt,
-  title   = {{EcoVGGT}: Pinned-Key Inference for Efficient and Streamable Feed-Forward {3D} Reconstruction from Long Videos},
+@article{cao2026eco3r,
+  title   = {{Eco3R}: Pinned-Key Inference for Efficient and Streamable Feed-Forward {3D} Reconstruction from Long Videos},
   author  = {Cao, Hongsen and Yuan, Shanxin and Jaber, Mona and Sayed, Ahmed},
   journal = {arXiv preprint arXiv:XXXX.XXXXX},
   year    = {2026}
@@ -200,7 +200,7 @@ The Alignment Refocusing weights (`alignment_refocusing_vggt1b.safetensors`, 302
 
 ## Acknowledgements
 
-EcoVGGT builds on [VGGT](https://github.com/facebookresearch/vggt), [FastVGGT](https://github.com/mystorm16/FastVGGT), [π³](https://github.com/yyfz/Pi3), [VGGT-Ω](https://github.com/facebookresearch/vggt-omega), and [Depth Anything 3](https://github.com/ByteDance-Seed/Depth-Anything-3), and its evaluation uses [ScanNet](http://www.scan-net.org/), [evo](https://github.com/MichaelGrupp/evo), and [Open3D](https://www.open3d.org/). We thank their authors for making them public.
+Eco3R builds on [VGGT](https://github.com/facebookresearch/vggt), [FastVGGT](https://github.com/mystorm16/FastVGGT), [π³](https://github.com/yyfz/Pi3), [VGGT-Ω](https://github.com/facebookresearch/vggt-omega), and [Depth Anything 3](https://github.com/ByteDance-Seed/Depth-Anything-3), and its evaluation uses [ScanNet](http://www.scan-net.org/), [evo](https://github.com/MichaelGrupp/evo), and [Open3D](https://www.open3d.org/). We thank their authors for making them public.
 
 ## License
 

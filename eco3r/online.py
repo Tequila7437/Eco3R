@@ -1,4 +1,4 @@
-"""Online Stream: EcoVGGT on frames that arrive one at a time.
+"""Online Stream: Eco3R on frames that arrive one at a time.
 
 Every `key_interval` frames, the newest frame becomes a candidate key. Each pass pins up to
 `max_keys` candidates spread evenly over the past, rebuilds the cache, and outputs the

@@ -13,7 +13,7 @@ from copy import deepcopy
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from ecovggt.geometry import umeyama_alignment
+from eco3r.geometry import umeyama_alignment
 
 
 def _trajectory(poses, frame_ids):

@@ -3,7 +3,7 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ecovggt"
+name = "eco3r"
 version = "1.0.0"
 description = "Pinned-key inference for efficient and streamable feed-forward 3D reconstruction from long videos"
 readme = "README.md"
@@ -31,4 +31,4 @@ dependencies = [
 eval = ["evo>=1.30", "open3d"]
 
 [tool.setuptools]
-packages = ["ecovggt"]
+packages = ["eco3r"]

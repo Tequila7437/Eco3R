@@ -1,4 +1,4 @@
-"""EcoVGGT: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos."""
+"""Eco3R: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos."""
 from .keys import pinned_keys
 from .models import load_backbone, load_refocusing
 from .api import reconstruct

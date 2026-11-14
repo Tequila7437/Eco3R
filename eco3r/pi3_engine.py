@@ -1,4 +1,4 @@
-"""EcoVGGT on pi3.
+"""Eco3R on pi3.
 
 pi3 has no reference frame and decodes every frame on its own, so the pin pass and the
 attach batches produce their outputs independently. In attach batches, the global layers
@@ -165,7 +165,7 @@ def to_camera_outputs(out, H, W, device=None):
 @torch.no_grad()
 def reconstruct(model, imgs, num_keys: int = 31, key_frames: Optional[Sequence[int]] = None, chunk: int = 64,
                 amp_dtype=torch.bfloat16) -> Dict:
-    """Run EcoVGGT on pi3. imgs: [1, S, 3, H, W] in [0, 1]."""
+    """Run Eco3R on pi3. imgs: [1, S, 3, H, W] in [0, 1]."""
     H, W = imgs.shape[-2:]
     amp = torch.autocast("cuda", dtype=amp_dtype) if (imgs.is_cuda and amp_dtype is not None) else torch.autocast("cpu", enabled=False)
     with amp:

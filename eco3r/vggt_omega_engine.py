@@ -1,4 +1,4 @@
-"""EcoVGGT on VGGT-Omega.
+"""Eco3R on VGGT-Omega.
 
 Global blocks attend over all tokens, and register blocks over the camera and register
 tokens only. The pin pass caches the inputs of both kinds, and attach batches read keys and
@@ -264,7 +264,7 @@ def to_camera_outputs(raw, h, w):
 
 @torch.no_grad()
 def reconstruct(model, images, num_keys: int = 31, key_frames: Optional[Sequence[int]] = None, chunk: int = 64) -> Dict:
-    """Run EcoVGGT on VGGT-Omega. images: [1, S, 3, h, w] from
+    """Run Eco3R on VGGT-Omega. images: [1, S, 3, h, w] from
     load_images(..., backbone="vggt-omega")."""
     raw = reconstruct_raw(model, images, num_keys=num_keys, key_frames=key_frames, chunk=chunk)
     out = to_camera_outputs(raw, *images.shape[-2:])

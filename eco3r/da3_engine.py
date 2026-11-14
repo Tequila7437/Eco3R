@@ -1,4 +1,4 @@
-"""EcoVGGT on Depth Anything 3 (DA3-LARGE).
+"""Eco3R on Depth Anything 3 (DA3-LARGE).
 
 From `alt_start` on, the odd layers attend across views. The pin pass caches their inputs
 (frame 0 first, as the reference view), and attach batches read keys and values from them.
@@ -179,7 +179,7 @@ def to_camera_outputs(res, H, W, device):
 @torch.no_grad()
 def reconstruct(model, images, num_keys: int = 31, key_frames: Optional[Sequence[int]] = None, chunk: int = 64,
                 amp_dtype=torch.bfloat16) -> Dict:
-    """Run EcoVGGT on DA3. images: [1, S, 3, H, W] in [0, 1]."""
+    """Run Eco3R on DA3. images: [1, S, 3, H, W] in [0, 1]."""
     H, W = images.shape[-2:]
     amp = torch.autocast("cuda", dtype=amp_dtype) if (images.is_cuda and amp_dtype is not None) else torch.autocast("cpu", enabled=False)
     with amp:

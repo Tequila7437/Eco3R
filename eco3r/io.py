@@ -67,7 +67,7 @@ def load_images(source: str, stride: int = 1, max_frames: int = 0, backbone: str
     if backbone != "vggt-omega":
         return torch.stack([preprocess(f) for f in frames])
     from .models import _add_path
-    _add_path("ECOVGGT_VGGT_OMEGA_ROOT", "vggt-omega")
+    _add_path("ECO3R_VGGT_OMEGA_ROOT", "vggt-omega")
     from vggt_omega.utils.load_fn import load_and_preprocess_images
     if isinstance(frames[0], str):
         return load_and_preprocess_images(frames, mode="balanced", image_resolution=416)

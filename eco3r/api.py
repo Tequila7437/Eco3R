@@ -1,4 +1,4 @@
-"""ecovggt.reconstruct: one call for every backbone."""
+"""eco3r.reconstruct: one call for every backbone."""
 from typing import Dict, Optional, Sequence
 
 import numpy as np
@@ -25,11 +25,11 @@ def _unproject(depth, w2c, K):
 @torch.no_grad()
 def reconstruct(model, images, backbone: str, num_keys: int = 31, key_frames: Optional[Sequence[int]] = None,
                 chunk: int = 64, score: bool = False) -> Dict:
-    """Reconstruct a video with EcoVGGT.
+    """Reconstruct a video with Eco3R.
 
     Args:
-        model: a backbone from ecovggt.load_backbone.
-        images: [S, 3, H, W] or [1, S, 3, H, W] in [0, 1] (see ecovggt.io.load_images).
+        model: a backbone from eco3r.load_backbone.
+        images: [S, 3, H, W] or [1, S, 3, H, W] in [0, 1] (see eco3r.io.load_images).
         backbone: "vggt", "vggt-frozen", "pi3", "da3" or "vggt-omega".
         num_keys: size of the Pinned Key Set; key_frames overrides it.
         chunk: frames per attach batch (memory scales with chunk + num_keys, not with S).

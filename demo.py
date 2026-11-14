@@ -1,4 +1,4 @@
-"""Reconstruct a folder of images or a video with EcoVGGT.
+"""Reconstruct a folder of images or a video with Eco3R.
 
 Examples:
     python demo.py --input path/to/frames --backbone pi3 --out outputs/scene
@@ -11,8 +11,8 @@ import time
 import numpy as np
 import torch
 
-import ecovggt
-from ecovggt.io import load_images, save_reconstruction
+import eco3r
+from eco3r.io import load_images, save_reconstruction
 
 
 def main():
@@ -40,24 +40,24 @@ def main():
         kwargs["weights"] = a.weights
     if a.refocusing_weights and a.backbone == "vggt":
         kwargs["refocusing_weights"] = a.refocusing_weights
-    model = ecovggt.load_backbone(a.backbone, **kwargs)
+    model = eco3r.load_backbone(a.backbone, **kwargs)
     t0 = time.time()
     if a.online:
         rec = online(model, images.cuda(), a)
     else:
-        rec = ecovggt.reconstruct(model, images.cuda(), a.backbone, num_keys=a.num_keys, chunk=a.chunk, score=a.score)
+        rec = eco3r.reconstruct(model, images.cuda(), a.backbone, num_keys=a.num_keys, chunk=a.chunk, score=a.score)
     print(f"reconstructed in {time.time() - t0:.1f} s, peak GPU memory {torch.cuda.max_memory_allocated() / 2**30:.1f} GB")
     if rec.get("alignment_score") is not None:
         s = rec["alignment_score"]
-        print(f"Alignment Score {s:.2f}" + (" (below threshold: the reconstruction may have failed)" if s < ecovggt.THRESHOLD_PINNED_KEYS else ""))
+        print(f"Alignment Score {s:.2f}" + (" (below threshold: the reconstruction may have failed)" if s < eco3r.THRESHOLD_PINNED_KEYS else ""))
     n = save_reconstruction(a.out, rec, images, a.conf_percentile)
     print(f"wrote {n} points and {images.shape[0]} cameras to {a.out}")
 
 
 def online(model, images, a):
     """Run the Online Stream frame by frame and convert its outputs."""
-    from ecovggt import pi3_engine, vggt_omega_engine
-    from ecovggt.api import _unproject
+    from eco3r import pi3_engine, vggt_omega_engine
+    from eco3r.api import _unproject
     H, W = images.shape[-2:]
     if a.backbone == "vggt-omega":
         raw = vggt_omega_engine.online_reconstruct(model, images[None], key_interval=a.key_interval, lag=2, max_keys=a.max_keys, chunk=a.chunk)
@@ -65,9 +65,9 @@ def online(model, images, a):
         return dict(w2c=out["w2c"].numpy(), intrinsics=out["intrinsics"].numpy(), depth=out["depth"].numpy(), conf=out["conf"].numpy(),
                     world_points=out["world_points"].numpy(), pinned_frames=raw["pinned_frames"])
     if a.backbone == "pi3":
-        stream = ecovggt.Pi3OnlineStream(model, key_interval=a.key_interval, max_keys=a.max_keys, chunk=a.chunk)
+        stream = eco3r.Pi3OnlineStream(model, key_interval=a.key_interval, max_keys=a.max_keys, chunk=a.chunk)
     elif a.backbone in ("vggt", "vggt-frozen"):
-        stream = ecovggt.VGGTOnlineStream(model, key_interval=a.key_interval, lag=2, max_keys=a.max_keys, chunk=a.chunk)
+        stream = eco3r.VGGTOnlineStream(model, key_interval=a.key_interval, lag=2, max_keys=a.max_keys, chunk=a.chunk)
     else:
         raise SystemExit("the Online Stream supports the vggt, pi3 and vggt-omega backbones")
     dtype = next(model.parameters()).dtype
