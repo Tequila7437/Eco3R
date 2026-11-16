@@ -6,7 +6,7 @@ Hongsen Cao&ensp;·&ensp;Shanxin Yuan&ensp;·&ensp;Mona Jaber&ensp;·&ensp;Ahmed
 
 Queen Mary University of London
 
-<a href="https://arxiv.org/abs/XXXX.XXXXX"><img src="https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b?logo=arxiv&logoColor=white" alt="arXiv"></a>
+<a href="https://arxiv.org/abs/2611.18099"><img src="https://img.shields.io/badge/arXiv-2611.18099-b31b1b?logo=arxiv&logoColor=white" alt="arXiv"></a>
 <a href="https://huggingface.co/Tequila7437/Eco3R"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Weights-Eco3R-f5a623" alt="Weights on Hugging Face"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/Code-VGGT%20License-2a78d6" alt="Code license"></a>
 <a href="https://creativecommons.org/licenses/by-nc/4.0/"><img src="https://img.shields.io/badge/Weights-CC%20BY--NC%204.0-6f6e6a" alt="Weights license"></a>
@@ -193,7 +193,7 @@ The Alignment Refocusing weights (`alignment_refocusing_vggt1b.safetensors`, 302
 @article{cao2026eco3r,
   title   = {{Eco3R}: Pinned-Key Inference for Efficient and Streamable Feed-Forward {3D} Reconstruction from Long Videos},
   author  = {Cao, Hongsen and Yuan, Shanxin and Jaber, Mona and Sayed, Ahmed},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  journal = {arXiv preprint arXiv:2611.18099},
   year    = {2026}
 }
 ```
