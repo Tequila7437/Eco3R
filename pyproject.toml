@@ -13,7 +13,7 @@ authors = [
   { name = "Hongsen Cao" },
   { name = "Shanxin Yuan" },
   { name = "Mona Jaber" },
-  { name = "Ahmed Sayed" },
+  { name = "Ahmed M. Abdelmoniem" },
 ]
 dependencies = [
   "torch>=2.3",

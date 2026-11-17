@@ -2,7 +2,7 @@
 
 <h1>Eco3R: Pinned-Key Inference for Efficient and Streamable<br>Feed-Forward 3D Reconstruction from Long Videos</h1>
 
-Hongsen Cao&ensp;·&ensp;Shanxin Yuan&ensp;·&ensp;Mona Jaber&ensp;·&ensp;Ahmed Sayed
+Hongsen Cao&ensp;·&ensp;Shanxin Yuan&ensp;·&ensp;Mona Jaber&ensp;·&ensp;Ahmed M. Abdelmoniem
 
 Queen Mary University of London
 
@@ -192,7 +192,7 @@ The Alignment Refocusing weights (`alignment_refocusing_vggt1b.safetensors`, 302
 ```bibtex
 @article{cao2026eco3r,
   title   = {{Eco3R}: Pinned-Key Inference for Efficient and Streamable Feed-Forward {3D} Reconstruction from Long Videos},
-  author  = {Cao, Hongsen and Yuan, Shanxin and Jaber, Mona and Sayed, Ahmed},
+  author  = {Cao, Hongsen and Yuan, Shanxin and Jaber, Mona and Abdelmoniem, Ahmed M.},
   journal = {arXiv preprint arXiv:2611.18099},
   year    = {2026}
 }
